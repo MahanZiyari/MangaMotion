@@ -2,4 +2,26 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="malachite">#FF0BDA51</color>
+    <color name="vividCerise">#FFDA0B95</color>
+    <!---->
+    <color name="dark_gunmetal">#1F1D36</color>
+    <color name="dark_gunmetal_alpha">#801F1D36</color>
+    <color name="whiteAlpha">#80FFFFFF</color>
+    <color name="gray">#908F9A</color>
+    <color name="lightGray">#F9F9F9</color>
+    <color name="mediumGray">#D1D1D1</color>
+    <color name="lightMediumGray">#80D1D1D1</color>
+    <color name="darkGray">#4B4B4B</color>
+    <color name="dark">#313C44</color>
+    <color name="darker">#151B20</color>
+    <color name="tart_orange">#FF4646</color>
+    <color name="mikado_yellow">#FFC114</color>
+    <color name="caribbean_green">#00C980</color>
+    <color name="darkGreen">#032022</color>
+    <color name="darkSlategray">#0c2531</color>
+    <color name="ghostWhite">#FDFDFD</color>
+    <color name="whiteSmoke">#f4f4f4</color>
+    <color name="white2">#fefefe</color>
+    <color name="americanSilver">#C5C5C5</color>
 </resources>

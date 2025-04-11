@@ -5,6 +5,8 @@ plugins {
     id("com.google.devtools.ksp")
     //Hilt
     id("com.google.dagger.hilt.android")
+    // Safe Args
+    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -35,6 +37,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 
