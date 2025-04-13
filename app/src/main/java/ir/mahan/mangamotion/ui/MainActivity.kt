@@ -1,5 +1,6 @@
 package ir.mahan.mangamotion.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import ir.mahan.mangamotion.R
 import ir.mahan.mangamotion.databinding.ActivityMainBinding
 
@@ -29,6 +31,8 @@ class MainActivity : AppCompatActivity() {
             navController.addOnDestinationChangedListener{ _, destination, _ ->
                 when(destination.id){
                     R.id.splashFragment -> setBottomAppBarVisibility(false)
+                    R.id.registerFragment -> setBottomAppBarVisibility(false)
+                    R.id.settingsFragment -> setBottomAppBarVisibility(false)
                     else -> setBottomAppBarVisibility(true)
                 }
             }
@@ -46,6 +50,11 @@ class MainActivity : AppCompatActivity() {
                 searchFab.isVisible = false
             }
         }
+    }
+
+    //Calligraphy
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
     override fun onDestroy() {

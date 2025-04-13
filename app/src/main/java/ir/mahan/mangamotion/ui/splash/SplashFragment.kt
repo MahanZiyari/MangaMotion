@@ -33,7 +33,10 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launch {
             delay(2500)
-            findNavController().navigate(R.id.action_to_register)
+            findNavController().run {
+                popBackStack(R.id.splashFragment, true)
+                navigate(R.id.action_to_register)
+            }
         }
     }
 

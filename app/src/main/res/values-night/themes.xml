@@ -8,5 +8,22 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorSurface">@color/darker</item>
         <item name="colorOnSurface">@color/americanSilver</item>
+        <item name="colorOutline">@color/americanSilver</item>
+    </style>
+    <style name="Theme.MangaMotion" parent="Base.Theme.MangaMotion" />
+
+    <style name="DefaultTextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/outlined_text_input_stroke</item>
+        <item name="boxStrokeWidth">@dimen/_1mdp</item>
+        <item name="boxCornerRadiusTopStart">@dimen/_15mdp</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/_15mdp</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/_15mdp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/_15mdp</item>
+        <item name="android:layout_marginTop">@dimen/_10mdp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="hintTextColor">?attr/colorOnSurface</item>
+        <item name="boxStrokeErrorColor">@color/tart_orange</item>
+        <item name="startIconTint">?attr/colorOnSurface</item>
+        <item name="android:paddingStart">@dimen/_5mdp</item>
     </style>
 </resources>
