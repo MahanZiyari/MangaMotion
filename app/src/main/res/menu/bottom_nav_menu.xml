@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/mangaFragment"
+        android:icon="@drawable/book"
+        app:showAsAction="always"
+        android:title="Manga" />
+    <item
+        android:id="@+id/animeFragment"
+        app:showAsAction="always"
+        android:icon="@drawable/video"
+        android:title="Anime" />
+    <item
+        android:id="@+id/emptyItem"
+        android:title="" />
+    <item
+        android:id="@+id/randomFragment"
+        app:showAsAction="always"
+
+        android:icon="@drawable/crystal_ball"
+        android:title="Random" />
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/user"
+        app:showAsAction="always"
+
+        android:title="Profile" />
+
+</menu>

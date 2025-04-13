@@ -22,11 +22,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="?attr/colorSurface"
         app:fabAlignmentMode="center"
         app:fabAnimationMode="slide"
-        app:fabCradleMargin="@dimen/_20mdp"
+        android:paddingBottom="0dp"
+        app:fabAnchorMode="cradle"
+        app:fabCradleMargin="@dimen/_15mdp"
         app:fabCradleRoundedCornerRadius="@dimen/_15mdp"
-        app:fabCradleVerticalOffset="@dimen/_15mdp">
+        app:fabCradleVerticalOffset="@dimen/_10mdp">
+
+        <!--Bottom Navigation Bar-->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10mdp"
+            android:background="@android:color/transparent"
+            app:itemIconTint="@color/item_bottom_nav_tint"
+            app:itemTextColor="@color/item_bottom_nav_tint"
+            app:labelVisibilityMode="selected"
+            app:menu="@menu/bottom_nav_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
@@ -35,10 +50,11 @@
         android:id="@+id/search_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:contentDescription="@string/search_button"
         android:src="@drawable/magnifying_glass"
         app:backgroundTint="?attr/colorPrimary"
         app:layout_anchor="@id/main_app_bar"
         app:tint="?attr/colorOnPrimary" />
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

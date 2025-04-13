@@ -6,5 +6,7 @@
         <item name="colorSecondary">@color/vividCerise</item>
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/darker</item>
+        <item name="colorOnSurface">@color/americanSilver</item>
     </style>
 </resources>
