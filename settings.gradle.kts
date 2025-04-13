@@ -17,7 +17,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
         maven(url = "https://maven.myket.ir")
+        maven(url = "https://jitpack.io/")
     }
 }
 
