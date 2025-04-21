@@ -26,31 +26,44 @@
         android:name="ir.mahan.mangamotion.ui.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
+    <!--Anime Fragment-->
     <fragment
         android:id="@+id/animeFragment"
         android:name="ir.mahan.mangamotion.ui.anime.AnimeFragment"
         android:label="fragment_anime"
         tools:layout="@layout/fragment_anime" />
+    <!--Manga Fragment-->
     <fragment
         android:id="@+id/mangaFragment"
         android:name="ir.mahan.mangamotion.ui.manga.MangaFragment"
         android:label="fragment_manga"
         tools:layout="@layout/fragment_manga" />
+    <action
+        android:id="@+id/action_to_manga"
+        app:destination="@id/mangaFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    <!--Search Fragment-->
     <fragment
         android:id="@+id/searchFragment"
         android:name="ir.mahan.mangamotion.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <!--Random Fragment-->
     <fragment
         android:id="@+id/randomFragment"
         android:name="ir.mahan.mangamotion.ui.random.RandomFragment"
         android:label="fragment_random"
         tools:layout="@layout/fragment_random" />
+    <!--Profile Fragment-->
     <fragment
         android:id="@+id/profileFragment"
         android:name="ir.mahan.mangamotion.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <!--Settings Fragment-->
     <fragment
         android:id="@+id/settingsFragment"
         android:name="ir.mahan.mangamotion.ui.settings.SettingsFragment"

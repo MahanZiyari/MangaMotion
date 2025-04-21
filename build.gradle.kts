@@ -8,4 +8,6 @@ plugins {
     id ("com.google.dagger.hilt.android") version "2.51.1" apply false
     // Safe Args
     id ("androidx.navigation.safeargs") version "2.8.9" apply false
+    // Firebase
+    id("com.google.gms.google-services") version "4.4.2" apply false
 }

@@ -7,6 +7,8 @@ plugins {
     id("com.google.dagger.hilt.android")
     // Safe Args
     id("androidx.navigation.safeargs")
+    //
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -53,6 +55,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // Firebase BOM
+    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    implementation("com.google.firebase:firebase-auth")
     // Hilt-Dagger
     implementation("com.google.dagger:hilt-android:2.51.1")
     ksp("com.google.dagger:hilt-compiler:2.51.1")

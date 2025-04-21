@@ -85,7 +85,7 @@
                 style="@style/DefaultTextInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20mdp"
+                android:layout_marginTop="@dimen/_10mdp"
                 android:layout_marginBottom="@dimen/_5mdp"
                 android:layout_marginHorizontal="@dimen/_5mdp"
                 android:hint="@string/password"

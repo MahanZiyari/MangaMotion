@@ -1,4 +1,4 @@
-package ir.mahan.mangamotion.utility
+package ir.mahan.mangamotion.utils
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "573911784115",
+    "project_id": "manga-motion-62545",
+    "storage_bucket": "manga-motion-62545.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573911784115:android:e4501f2b9a6e617ff32ec6",
+        "android_client_info": {
+          "package_name": "ir.mahan.mangamotion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArwk5NymVg9tieYT2kYTH8q414Okc2j10"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
