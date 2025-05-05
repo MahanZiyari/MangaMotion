@@ -7,11 +7,14 @@ import com.google.firebase.auth.auth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import ir.mahan.mangamotion.data.model.AuthInfo
+import ir.mahan.mangamotion.utils.DEBUG_TAG
 import ir.mahan.mangamotion.utils.Wrapper
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import javax.inject.Inject
 
 class SessionManager @Inject constructor() {
@@ -39,6 +42,23 @@ class SessionManager @Inject constructor() {
 
     suspend fun signUp(authInfo: AuthInfo){
         Firebase.auth.createUserWithEmailAndPassword(authInfo.email, authInfo.password).await()
+    }
+
+    fun signUp2(authInfo: AuthInfo, onSuccess: (FirebaseUser) -> Unit, onFailure: (Exception) -> Unit){
+        Firebase.auth.createUserWithEmailAndPassword(authInfo.email, authInfo.password)
+            .addOnCompleteListener {
+                    task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Timber.tag(DEBUG_TAG).d("createUserWithEmail:success")
+                    val user = Firebase.auth.currentUser
+                    onSuccess(user!!)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Timber.tag(DEBUG_TAG).d("createUserWithEmail:failure => ${task.exception}")
+                    onFailure(task.exception!!)
+                }
+            }
     }
 
     suspend fun signOut() {

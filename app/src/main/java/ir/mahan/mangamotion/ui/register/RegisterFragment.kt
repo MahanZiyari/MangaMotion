@@ -18,7 +18,9 @@ import ir.mahan.mangamotion.R
 import ir.mahan.mangamotion.data.model.AuthInfo
 import ir.mahan.mangamotion.databinding.FragmentRegisterBinding
 import ir.mahan.mangamotion.utils.checkForEmailMatching
-import ir.mahan.mangamotion.viewmodel.RegisterViewModel
+import ir.mahan.mangamotion.viewmodel.register.RegisterIntents
+import ir.mahan.mangamotion.viewmodel.register.RegisterStates
+import ir.mahan.mangamotion.viewmodel.register.RegisterViewModel
 import kotlinx.coroutines.launch
 
 
@@ -88,7 +90,7 @@ class RegisterFragment : Fragment() {
                 RegisterStates.Loading -> {
                     Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
                 }
-                is RegisterStates.SuccessfulLogin -> login(user = state.user)
+                is RegisterStates.SuccessfulLogin -> loginUser(user = state.user)
                 is RegisterStates.FailedLogin -> {
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_LONG).show()
                 }
@@ -96,7 +98,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun login(user: FirebaseUser) {
+    private fun loginUser(user: FirebaseUser) {
         Toast.makeText(requireContext(), "UUID: ${user.uid}", Toast.LENGTH_LONG).show()
         val action = RegisterFragmentDirections.actionToManga()
         findNavController().navigate(
@@ -111,8 +113,6 @@ class RegisterFragment : Fragment() {
 
     private fun isPasswordValid() = binding.passTxtEdt.text.toString().length >= 8
     private fun isEmailValid() = binding.emailTxtEdt.text.toString().checkForEmailMatching()
-
-
     private fun changeButtonState() {
         binding.signInButton.isEnabled = isEmailValid() && isPasswordValid()
     }

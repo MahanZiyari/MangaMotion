@@ -1,4 +1,4 @@
-package ir.mahan.mangamotion.ui.register
+package ir.mahan.mangamotion.viewmodel.register
 
 import com.google.firebase.auth.FirebaseUser
 

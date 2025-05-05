@@ -1,4 +1,4 @@
-package ir.mahan.mangamotion.ui.register
+package ir.mahan.mangamotion.viewmodel.register
 
 import ir.mahan.mangamotion.data.model.AuthInfo
 

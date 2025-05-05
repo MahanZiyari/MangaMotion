@@ -1,4 +1,4 @@
-package ir.mahan.mangamotion.ui.splash
+package ir.mahan.mangamotion.viewmodel.splash
 
 sealed class SplashStates {
     data object Idle: SplashStates()

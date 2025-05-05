@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mahan.mangamotion.R
 import ir.mahan.mangamotion.databinding.FragmentSplashBinding
-import ir.mahan.mangamotion.viewmodel.SplashViewModel
+import ir.mahan.mangamotion.viewmodel.splash.SplashIntents
+import ir.mahan.mangamotion.viewmodel.splash.SplashStates
+import ir.mahan.mangamotion.viewmodel.splash.SplashViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

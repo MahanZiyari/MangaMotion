@@ -1,14 +1,10 @@
-package ir.mahan.mangamotion.viewmodel
+package ir.mahan.mangamotion.viewmodel.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.mahan.mangamotion.data.SessionManager
 import ir.mahan.mangamotion.data.model.AuthInfo
-import ir.mahan.mangamotion.ui.register.RegisterIntents
-import ir.mahan.mangamotion.ui.register.RegisterStates
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +30,7 @@ class RegisterViewModel @Inject constructor(private val sessionManager: SessionM
         intents.consumeAsFlow().collect { intent ->
             when (intent) {
                 is RegisterIntents.SignInUser -> {}
-                is RegisterIntents.SignUpUser -> signUpUser(intent.authInfo)
+                is RegisterIntents.SignUpUser -> signUpUser2(intent.authInfo)
             }
 
         }
@@ -48,6 +44,19 @@ class RegisterViewModel @Inject constructor(private val sessionManager: SessionM
         } catch (e: Exception) {
             _states.value = RegisterStates.FailedLogin(e.message.toString())
         }
+    }
+
+    private fun signUpUser2(authInfo: AuthInfo) = viewModelScope.launch(Dispatchers.IO) {
+        _states.value = RegisterStates.Loading
+        sessionManager.signUp2(
+            authInfo = authInfo,
+            onSuccess = {
+                _states.value = RegisterStates.SuccessfulLogin(it)
+            },
+            onFailure = {
+                _states.value = RegisterStates.FailedLogin(it.message.toString())
+            }
+        )
     }
 
 }
