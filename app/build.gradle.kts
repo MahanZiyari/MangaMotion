@@ -104,4 +104,5 @@ dependencies {
     // Other
     implementation ("com.github.MrNouri:DynamicSizes:1.0")
     implementation ("kr.co.prnd:readmore-textview:1.0.0")
+    implementation("io.writeopia:loading-button:3.0.0")
 }

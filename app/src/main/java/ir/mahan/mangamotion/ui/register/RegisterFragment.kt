@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +19,7 @@ import ir.mahan.mangamotion.R
 import ir.mahan.mangamotion.data.model.AuthInfo
 import ir.mahan.mangamotion.databinding.FragmentRegisterBinding
 import ir.mahan.mangamotion.utils.checkForEmailMatching
+import ir.mahan.mangamotion.utils.toBitmap
 import ir.mahan.mangamotion.viewmodel.register.RegisterIntents
 import ir.mahan.mangamotion.viewmodel.register.RegisterStates
 import ir.mahan.mangamotion.viewmodel.register.RegisterViewModel
@@ -74,9 +76,7 @@ class RegisterFragment : Fragment() {
             // Sign In Button
             signInButton.setOnClickListener {
                 lifecycleScope.launch {
-                    viewModel.intents.send(
-                        RegisterIntents.SignUpUser(AuthInfo(email, password))
-                    )
+                    viewModel.intents.send(RegisterIntents.SignUpUser(AuthInfo(email, password)))
                 }
             }
 
@@ -88,10 +88,18 @@ class RegisterFragment : Fragment() {
             when (state) {
                 RegisterStates.Idle -> {}
                 RegisterStates.Loading -> {
+                    binding.signInButton.startAnimation()
                     Toast.makeText(requireContext(), "Loading", Toast.LENGTH_LONG).show()
                 }
-                is RegisterStates.SuccessfulLogin -> loginUser(user = state.user)
+                is RegisterStates.SuccessfulLogin -> {
+                    val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.circle_check)
+                    binding.signInButton.doneLoadingAnimation(binding.signInButton.solidColor, drawable!!.toBitmap())
+                    loginUser(user = state.user)
+                }
                 is RegisterStates.FailedLogin -> {
+                    binding.signInButton.revertAnimation {
+                        binding.signInButton.background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
+                    }
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_LONG).show()
                 }
             }

@@ -23,10 +23,10 @@
 
     <!--Form-->
     <ScrollView
+        android:id="@+id/form_lay"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:paddingVertical="@dimen/_10mdp"
-        app:layout_constraintBottom_toTopOf="@id/sign_in_button"
         app:layout_constraintEnd_toEndOf="@id/guide_right"
         app:layout_constraintStart_toStartOf="@id/guide_left"
         app:layout_constraintTop_toTopOf="parent">
@@ -106,7 +106,7 @@
     </ScrollView>
 
 
-    <com.google.android.material.button.MaterialButton
+    <!--<com.google.android.material.button.MaterialButton
         android:id="@+id/sign_in_button"
         android:layout_width="0dp"
         android:layout_height="@dimen/_50mdp"
@@ -115,8 +115,27 @@
         android:enabled="false"
         android:text="@string/sign_up"
         android:textSize="@dimen/_18font_mdp"
+        app:layout_constraintTop_toBottomOf="@id/form_lay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guide_right"
-        app:layout_constraintStart_toStartOf="@id/guide_left" />
+        app:layout_constraintStart_toStartOf="@id/guide_left" />-->
+
+    <io.writeopia.loadingbutton.customViews.CircularProgressButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_50mdp"
+        android:layout_marginHorizontal="@dimen/_8mdp"
+        android:layout_marginBottom="@dimen/_10mdp"
+        android:enabled="false"
+        android:layout_marginTop="@dimen/_5mdp"
+        android:text="@string/sign_up"
+        android:background="@drawable/rounded_bg"
+        android:textSize="@dimen/_18font_mdp"
+        app:layout_constraintEnd_toEndOf="@id/guide_right"
+        app:layout_constraintStart_toStartOf="@id/guide_left"
+        app:layout_constraintTop_toBottomOf="@id/form_lay"
+        app:spinning_bar_color="#FFF"
+        app:spinning_bar_padding="6dp"
+        app:spinning_bar_width="4dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

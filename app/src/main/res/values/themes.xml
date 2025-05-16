@@ -26,4 +26,14 @@
         <item name="startIconTint">?attr/colorOnSurface</item>
         <item name="android:paddingStart">@dimen/_5mdp</item>
     </style>
+    <style name="LoadingButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="background">@drawable/rounded_bg</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="cornerRadius">@dimen/_15mdp</item>
+    </style>
+    <!--Rounded ImageView-->
+    <style name="RoundedImageOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_10mdp</item>
+    </style>
 </resources>

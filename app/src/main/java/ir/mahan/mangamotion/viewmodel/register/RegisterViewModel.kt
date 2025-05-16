@@ -2,6 +2,7 @@ package ir.mahan.mangamotion.viewmodel.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.mahan.mangamotion.data.SessionManager
 import ir.mahan.mangamotion.data.model.AuthInfo
@@ -36,7 +37,7 @@ class RegisterViewModel @Inject constructor(private val sessionManager: SessionM
         }
     }
 
-    private fun signUpUser(authInfo: AuthInfo) = viewModelScope.launch(Dispatchers.IO) {
+    /*private fun signUpUser(authInfo: AuthInfo) = viewModelScope.launch(Dispatchers.IO) {
         _states.value = RegisterStates.Loading
         try {
             sessionManager.signUp(authInfo)
@@ -44,11 +45,27 @@ class RegisterViewModel @Inject constructor(private val sessionManager: SessionM
         } catch (e: Exception) {
             _states.value = RegisterStates.FailedLogin(e.message.toString())
         }
-    }
+    }*/
 
     private fun signUpUser2(authInfo: AuthInfo) = viewModelScope.launch(Dispatchers.IO) {
         _states.value = RegisterStates.Loading
         sessionManager.signUp2(
+            authInfo = authInfo,
+            onSuccess = {
+                _states.value = RegisterStates.SuccessfulLogin(it)
+            },
+            onFailure = {
+                if (it is FirebaseAuthUserCollisionException){
+                    signInUser(authInfo)
+                }
+                //_states.value = RegisterStates.FailedLogin(it.message.toString())
+            }
+        )
+    }
+
+    private fun signInUser(authInfo: AuthInfo) = viewModelScope.launch(Dispatchers.IO) {
+        _states.value = RegisterStates.Loading
+        sessionManager.signIn2(
             authInfo = authInfo,
             onSuccess = {
                 _states.value = RegisterStates.SuccessfulLogin(it)

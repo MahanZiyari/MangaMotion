@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.mahan.mangamotion.data.SessionManager
-import ir.mahan.mangamotion.utils.DEBUG_TAG
+import ir.mahan.mangamotion.utils.constants.DEBUG_TAG
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -20,6 +20,7 @@ class SplashViewModel @Inject constructor(private val sessionManager: SessionMan
     val states get() = _states
 
     init {
+        //viewModelScope.launch { sessionManager.signOut() }
         manageIntents()
     }
 

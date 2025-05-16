@@ -1,6 +1,10 @@
-package ir.mahan.mangamotion.utils
+package ir.mahan.mangamotion.utils.constants
 
 const val EMAIL_REGEX =
     "^(?=.{1,256})(?=.{1,64}@)[a-zA-Z0-9!#\$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#\$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
 
 const val DEBUG_TAG = "Debug"
+const val BASE_URL = "https://api.jikan.moe/v4/"
+const val CONNECTION_TIMEOUT = 60L
+
+const val LIMIT_NUMBER = 9

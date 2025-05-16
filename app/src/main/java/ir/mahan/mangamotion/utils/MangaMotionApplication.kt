@@ -5,7 +5,9 @@ import dagger.hilt.android.HiltAndroidApp
 import io.github.inflationx.calligraphy3.CalligraphyConfig
 import io.github.inflationx.calligraphy3.CalligraphyInterceptor
 import io.github.inflationx.viewpump.ViewPump
+import ir.mahan.mangamotion.R
 import timber.log.Timber
+
 
 @HiltAndroidApp
 class MangaMotionApplication: Application() {
@@ -16,7 +18,8 @@ class MangaMotionApplication: Application() {
             ViewPump.builder().addInterceptor(
                 CalligraphyInterceptor(
                     CalligraphyConfig.Builder()
-                        .setDefaultFontPath("fonts/Poppins-Medium.ttf")
+                        .setDefaultFontPath("fonts/Poppins-medium.ttf")
+                        .setFontAttrId(io.github.inflationx.calligraphy3.R.attr.fontPath)
                         .build()
                 )
             ).build()
