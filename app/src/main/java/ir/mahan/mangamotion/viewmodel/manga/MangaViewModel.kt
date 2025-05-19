@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.mahan.mangamotion.data.repository.MangaRepository
-import ir.mahan.mangamotion.utils.constants.DEBUG_TAG
 import ir.mahan.mangamotion.utils.ResponseHandler
 import ir.mahan.mangamotion.utils.constants.APIQueryParameters
+import ir.mahan.mangamotion.utils.constants.DEBUG_TAG
 import ir.mahan.mangamotion.utils.constants.LIMIT_NUMBER
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -17,8 +17,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class MangaViewModel @Inject constructor(private val repository: MangaRepository) :
-    ViewModel() {
+class MangaViewModel @Inject constructor(private val repository: MangaRepository) : ViewModel() {
 
     val intents: Channel<MangaIntents> = Channel()
     private val _states = MutableStateFlow<MangaStates>(MangaStates.Idle)
@@ -32,6 +31,7 @@ class MangaViewModel @Inject constructor(private val repository: MangaRepository
 
     init {
         manageIntents()
+        viewModelScope.launch { intents.send(MangaIntents.LoadTopMangas) }
     }
 
 

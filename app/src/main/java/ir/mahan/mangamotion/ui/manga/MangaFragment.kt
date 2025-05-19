@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -31,7 +32,7 @@ class MangaFragment : Fragment() {
     private var _binding: FragmentMangaBinding? = null
     val binding get() = _binding!!
 
-    private val viewModel: MangaViewModel by viewModels()
+    private val viewModel: MangaViewModel by activityViewModels()
 
     @Inject lateinit var topItemsAdapter: TopItemAdapter
 
@@ -48,9 +49,7 @@ class MangaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         // Data Calling
         lifecycleScope.launch {
-            Timber.tag(DEBUG_TAG).d("lifeCycleScope launched")
-            async { requestForTopMangas() }.await()
-            Timber.tag(DEBUG_TAG).d("After manageStates")
+            //async { requestForTopMangas() }.await()
             manageStates()
         }
         // UI
@@ -59,7 +58,6 @@ class MangaFragment : Fragment() {
 
     private suspend fun manageStates()  {
         viewModel.states.collect{state->
-            Timber.tag(DEBUG_TAG).d("NewState: $state")
             when(state){
                 is MangaStates.Idle -> {}
                 is MangaStates.TopMangasLoading -> {
@@ -87,7 +85,6 @@ class MangaFragment : Fragment() {
     }
 
     private fun requestForTopMangas() = lifecycleScope.launch {
-        Timber.tag(DEBUG_TAG).d("Requesting for Top Mangas")
         viewModel.intents.send(MangaIntents.LoadTopMangas)
     }
 
