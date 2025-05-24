@@ -27,26 +27,24 @@
         app:fabAnimationMode="slide"
         android:paddingBottom="0dp"
         app:fabAnchorMode="cradle"
-        app:fabCradleMargin="@dimen/_15mdp"
+        app:fabCradleMargin="@dimen/_12mdp"
         app:fabCradleRoundedCornerRadius="@dimen/_15mdp"
-        app:fabCradleVerticalOffset="@dimen/_10mdp">
+        app:fabCradleVerticalOffset="@dimen/_8mdp">
 
         <!--Bottom Navigation Bar-->
         <com.google.android.material.bottomnavigation.BottomNavigationView
+            style="@style/MyBottomNavigationStyle"
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_45mdp"
             android:layout_marginEnd="@dimen/_10mdp"
-            android:background="@android:color/transparent"
-            app:itemIconTint="@color/item_bottom_nav_tint"
-            app:itemTextColor="@color/item_bottom_nav_tint"
-            app:labelVisibilityMode="selected"
             app:menu="@menu/bottom_nav_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <!--Search FAB-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
         android:id="@+id/search_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

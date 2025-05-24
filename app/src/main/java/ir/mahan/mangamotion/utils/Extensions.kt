@@ -4,9 +4,12 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.widget.ImageView
 import androidx.core.graphics.createBitmap
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import coil.load
+import coil.request.CachePolicy
 import ir.mahan.mangamotion.utils.constants.EMAIL_REGEX
 
 fun String.checkForEmailMatching() = this.matches(EMAIL_REGEX.toRegex())
@@ -38,4 +41,12 @@ fun Drawable.toBitmap(): Bitmap {
     this.draw(canvas)
 
     return bitmap
+}
+
+fun ImageView.smoothLoad(url: String) {
+    this.load(url) {
+        crossfade(true)
+        crossfade(500)
+        diskCachePolicy(CachePolicy.ENABLED)
+    }
 }

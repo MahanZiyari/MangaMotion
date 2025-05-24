@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.manga.MangaFragment">
 
+    <!--App Bar-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
@@ -16,14 +17,18 @@
             layout="@layout/home_app_bar"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--Main Content-->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/appBar"
         android:padding="@dimen/_8mdp"
+        android:paddingBottom="@dimen/_100mdp"
+        android:clipToPadding="false"
         android:layout_height="0dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/top_title"
                 android:layout_width="wrap_content"
@@ -32,13 +37,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="@dimen/_10mdp"
                 android:gravity="center"
-                android:drawablePadding="@dimen/_2mdp"
                 android:layout_marginTop="@dimen/_15mdp"
                 android:textSize="@dimen/_15font_mdp"
                 app:fontPath="fonts/Poppins-Bold.ttf"
                 android:textColor="?attr/colorOnBackground"
                 android:text="Top Rated Mangas"/>
-            <!--Popular Manga-->
+            <!--Top Manga-->
             <com.todkars.shimmer.ShimmerRecyclerView
                 android:id="@+id/popular_manga_shimmer"
                 android:layout_width="0dp"

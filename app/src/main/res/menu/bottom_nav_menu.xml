@@ -14,18 +14,17 @@
         android:title="Anime" />
     <item
         android:id="@+id/emptyItem"
-        android:title="" />
+        android:title=""
+        android:enabled="false"/>
     <item
         android:id="@+id/randomFragment"
         app:showAsAction="always"
-
         android:icon="@drawable/crystal_ball"
         android:title="Random" />
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/user"
         app:showAsAction="always"
-
         android:title="Profile" />
 
 </menu>

@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -49,7 +48,7 @@ class RegisterViewModel @Inject constructor(private val sessionManager: SessionM
 
     private fun signUpUser2(authInfo: AuthInfo) = viewModelScope.launch(Dispatchers.IO) {
         _states.value = RegisterStates.Loading
-        sessionManager.signUp2(
+        sessionManager.signUpWithCallback(
             authInfo = authInfo,
             onSuccess = {
                 _states.value = RegisterStates.SuccessfulLogin(it)
@@ -65,7 +64,7 @@ class RegisterViewModel @Inject constructor(private val sessionManager: SessionM
 
     private fun signInUser(authInfo: AuthInfo) = viewModelScope.launch(Dispatchers.IO) {
         _states.value = RegisterStates.Loading
-        sessionManager.signIn2(
+        sessionManager.signInWithCallback(
             authInfo = authInfo,
             onSuccess = {
                 _states.value = RegisterStates.SuccessfulLogin(it)

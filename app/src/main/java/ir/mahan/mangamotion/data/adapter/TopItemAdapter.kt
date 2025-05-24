@@ -54,7 +54,8 @@ class TopItemAdapter @Inject constructor() : RecyclerView.Adapter<TopItemAdapter
                 }
                 indexTxt.text = index.plus(1).toString()
                 titleTxt.text = item.title
-                genreTxt.text = item.genres?.map { it!!.name }?.joinToString(", ")
+                //genreTxt.text = item.genres?.map { it!!.name }?.joinToString(", ")
+                genreTxt.text = item.score.toString()
             }
 
         }
