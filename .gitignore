@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/src/main/res/drawable/manga_pic_temp.jpg
+app/google-services.json
