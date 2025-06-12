@@ -5,4 +5,5 @@ import javax.inject.Inject
 
 class MangaRepository @Inject constructor(private val remoteDataSource: RemoteDataSource) {
     suspend fun getTopMangas(query: Map<String, String>) = remoteDataSource.getTopMangas(query)
+    suspend fun searchManga(query: Map<String, String>) = remoteDataSource.searchManga(query)
 }

@@ -5,6 +5,11 @@ const val EMAIL_REGEX =
 
 const val DEBUG_TAG = "Debug"
 const val BASE_URL = "https://api.jikan.moe/v4/"
+const val BASE_AVATAR_URL = "https://api.dicebear.com/9.x/fun-emoji/png?seed="
 const val CONNECTION_TIMEOUT = 60L
-
 const val LIMIT_NUMBER = 9
+
+// Data Store
+const val USER_STORE_NAME = "user_store_name"
+const val USER_UID_KEY = "user_uid_key"
+const val USER_EMAIL_KEY = "USER_STORE_NAME"

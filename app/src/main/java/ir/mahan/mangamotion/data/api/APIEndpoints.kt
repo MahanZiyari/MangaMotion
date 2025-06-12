@@ -11,4 +11,7 @@ interface APIEndpoints {
 
     @GET("top/anime")
     suspend fun getTopAnime(@QueryMap query: Map<String, String>): Response<ResponseTopManga>
+
+    @GET("manga")
+    suspend fun searchManga(@QueryMap query: Map<String, String>): Response<ResponseTopManga>
 }

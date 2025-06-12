@@ -21,20 +21,20 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/appBar"
-        android:padding="@dimen/_8mdp"
-        android:paddingBottom="@dimen/_100mdp"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:clipToPadding="false"
         android:layout_height="0dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
+            android:paddingHorizontal="@dimen/_2mdp"
+            android:paddingBottom="@dimen/_100mdp"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/top_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="@dimen/_10mdp"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/_15mdp"
@@ -45,33 +45,52 @@
             <!--Top Manga-->
             <com.todkars.shimmer.ShimmerRecyclerView
                 android:id="@+id/popular_manga_shimmer"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:layout_marginTop="@dimen/_5mdp"
                 android:layout_marginBottom="@dimen/_20mdp"
                 app:shimmer_recycler_auto_start="true"
                 app:shimmer_recycler_layout="@layout/item_top_shimmer"
-                app:shimmer_recycler_shape="radial"
+                app:shimmer_recycler_shape="linear"
                 app:shimmer_recycler_item_count="9"
-                app:layout_constraintTop_toBottomOf="@id/top_title"
-                app:layout_constraintStart_toStartOf="@id/top_title"
-                app:layout_constraintEnd_toEndOf="parent"/>
-            <TextView
-                android:id="@+id/new_released_title"
-                android:layout_width="wrap_content"
+                tools:itemCount="9"
+                tools:listitem="@layout/item_top_shimmer"/>
+
+            <!--Recently Published-->
+            <include
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/popular_manga_shimmer"
-                app:layout_constraintStart_toStartOf="@id/top_title"
-                fontPath="fonts/Poppins-ExtraBoldItalic.ttf"
-                android:layout_marginVertical="@dimen/_10mdp"
-                android:textSize="@dimen/_10font_mdp"
-                android:text="Released"
-                tools:ignore="MissingPrefix" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginVertical="@dimen/_2mdp"
+                android:id="@+id/newMangaLay"
+                layout="@layout/home_new_manga"/>
+
+            <!--Doujins (fan made)-->
+            <ViewStub
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_2mdp"
+                android:id="@+id/doujinLay"
+                android:layout="@layout/home_fan_mades"/>
+
+            <!--Manhwa (Korean Comics)-->
+            <ViewStub
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_2mdp"
+                android:id="@+id/manhwaLay"
+                android:layout="@layout/home_korean_comics"/>
+
+            <!--Manhua (Chinese Comics)-->
+            <ViewStub
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_2mdp"
+                android:id="@+id/manhuaLay"
+                android:layout="@layout/home_chinese_comics"/>
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
