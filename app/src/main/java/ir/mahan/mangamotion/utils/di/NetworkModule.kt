@@ -1,10 +1,15 @@
 package ir.mahan.mangamotion.utils.di
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ir.mahan.mangamotion.data.api.APIEndpoints
 import ir.mahan.mangamotion.utils.constants.BASE_URL
@@ -61,5 +66,19 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(APIEndpoints::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNetworkRequest() = NetworkRequest.Builder().apply {
+        addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+        addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+        addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+        addCapability(NetworkCapabilities.NET_CAPABILITY_FOREGROUND)
+    }.build()
+
+    @Provides
+    @Singleton
+    fun provideCM(@ApplicationContext context: Context) = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 }

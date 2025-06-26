@@ -13,3 +13,6 @@ const val LIMIT_NUMBER = 9
 const val USER_STORE_NAME = "user_store_name"
 const val USER_UID_KEY = "user_uid_key"
 const val USER_EMAIL_KEY = "USER_STORE_NAME"
+// Room
+const val MAIN_DB_NAME = "main_db_name"
+const val MANGA_TABLE_NAME = "manga_table_name"

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -20,6 +21,7 @@ import ir.mahan.mangamotion.data.adapter.TopItemAdapter
 import ir.mahan.mangamotion.data.model.ResponseTopManga
 import ir.mahan.mangamotion.databinding.FragmentMangaBinding
 import ir.mahan.mangamotion.utils.RememberRecyclerView
+import ir.mahan.mangamotion.utils.base.BaseFragment
 import ir.mahan.mangamotion.utils.constants.BASE_AVATAR_URL
 import ir.mahan.mangamotion.utils.constants.DEBUG_TAG
 import ir.mahan.mangamotion.utils.setup
@@ -34,7 +36,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MangaFragment : Fragment() {
+class MangaFragment : BaseFragment() {
     // Binding
     private var _binding: FragmentMangaBinding? = null
     val binding get() = _binding!!
@@ -65,8 +67,19 @@ class MangaFragment : Fragment() {
         val uid = sessionManager.currentUserId
         appbarLay.avatarImg.smoothLoad(BASE_AVATAR_URL.plus(uid.hashCode()))
         // UI
+        handleNetworkStatus()
         initTopRecyclerView()
         initializeNewItemsRecyclerView()
+    }
+
+    private fun handleNetworkStatus() = binding.apply {
+        if (!isNetworkAvailable) {
+            contentLay.isVisible = false
+            noNetLay.isVisible = true
+        } else {
+            contentLay.isVisible = true
+            noNetLay.isVisible = false
+        }
     }
 
 
@@ -91,7 +104,7 @@ class MangaFragment : Fragment() {
     }
 
     private fun showTopMangas(topMangas: List<ResponseTopManga.Data>) {
-//        Timber.tag(DEBUG_TAG).d("Top Mangas Received")
+        Timber.tag(DEBUG_TAG).d("Top Mangas Received")
         topItemsAdapter.setItems(topMangas)
         binding.popularMangaShimmer.hideShimmer()
         callSubSections()
@@ -126,13 +139,13 @@ class MangaFragment : Fragment() {
     }
 
     private fun callSubSections() = lifecycleScope.launch {
-        delay(300)
-        viewModel.intents.send(MangaIntents.LoadNewMangas)
-        delay(300)
+//        delay(300)
+//        viewModel.intents.send(MangaIntents.LoadNewMangas)
+//        delay(300)
         viewModel.intents.send(MangaIntents.LoadDoujins)
-        delay(500)
+        delay(1000)
         viewModel.intents.send(MangaIntents.LoadManhwas)
-        delay(800)
+//        delay(800)
         viewModel.intents.send(MangaIntents.LoadManhuas)
     }
 
@@ -210,6 +223,7 @@ class MangaFragment : Fragment() {
         }
         lifecycleScope.launch {
             viewModel.intents.send(MangaIntents.LoadTopMangas)
+            viewModel.intents.send(MangaIntents.LoadNewMangas)
         }
     }
 
