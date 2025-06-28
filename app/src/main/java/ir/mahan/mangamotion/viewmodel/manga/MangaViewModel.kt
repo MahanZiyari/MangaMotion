@@ -8,15 +8,14 @@ import ir.mahan.mangamotion.data.model.ResponseTopManga
 import ir.mahan.mangamotion.data.repository.MangaRepository
 import ir.mahan.mangamotion.utils.NetworkObserver
 import ir.mahan.mangamotion.utils.ResponseHandler
-import ir.mahan.mangamotion.utils.constants.DEBUG_TAG
 import ir.mahan.mangamotion.utils.constants.MangaScreenQueryMaps
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,42 +24,64 @@ class MangaViewModel @Inject constructor(
     private val networkObserver: NetworkObserver
 ) : ViewModel() {
 
-    val intents: Channel<MangaIntents> = Channel()
+    val intents: Channel<MangaIntents> = Channel(5)
     private val _states = MutableStateFlow<MangaStates>(MangaStates.TopMangasLoading)
     val states get() = _states
 
     // Other Props
     private var topMangasCached = false
-    private var doujinsCached = false
-    private var manhuasCached = false
-    private var manhwasCached = false
-
+    private var isResponseCached = false
+    private val intToIntentMap = (0..4)
+        .associateWith {
+            when (it) {
+                0 -> MangaIntents.LoadTopMangas
+                1 -> MangaIntents.LoadNewMangas
+                2 -> MangaIntents.LoadDoujins
+                3 -> MangaIntents.LoadManhwas
+                4 -> MangaIntents.LoadManhuas
+                else -> MangaIntents.LoadTopMangas
+            }
+        }
 
     init {
         manageIntents()
     }
 
-
     private fun manageIntents() = viewModelScope.launch {
         intents.consumeAsFlow().collect { intent ->
             when (intent) {
+                // id = 0
                 MangaIntents.LoadTopMangas -> getTopMangas()
+                // id = 1
                 MangaIntents.LoadNewMangas -> searchManga(
                     MangaScreenQueryMaps.CURRENTLY_PUBLISHING.queries,
                     intent
                 )
-
-                MangaIntents.LoadDoujins -> searchManga(
+                // id = 2
+                MangaIntents.LoadDoujins -> retrieveManga(
                     MangaScreenQueryMaps.DOUJINS.queries,
-                    intent
+                    intent,
+                    2
                 )
-
-                MangaIntents.LoadManhwas -> searchManga(MangaScreenQueryMaps.MANHWA.queries, intent)
-                MangaIntents.LoadManhuas -> searchManga(MangaScreenQueryMaps.MANHUA.queries, intent)
+                // id  = 3
+                MangaIntents.LoadManhwas -> retrieveManga(
+                    MangaScreenQueryMaps.MANHWA.queries,
+                    intent,
+                    3
+                )
+                // id = 4
+                MangaIntents.LoadManhuas -> searchManga(
+                    MangaScreenQueryMaps.MANHUA.queries,
+                    intent,
+                    4
+                )
             }
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Top Manga Functions
+    ///////////////////////////////////////////////////////////////////////////
     private fun getTopMangas() = viewModelScope.launch(Dispatchers.IO) {
         _states.value = MangaStates.TopMangasLoading
         topMangasCached = repository.checkMangaResponseExist(0).first()
@@ -74,7 +95,7 @@ class MangaViewModel @Inject constructor(
 
     private fun fetchTopMangasFromApi() = viewModelScope.launch {
         _states.value = try {
-            Timber.tag(DEBUG_TAG).d("Calling API")
+//            Timber.tag(DEBUG_TAG).d("Calling API")
             val response = repository.fetchTopMangas(MangaScreenQueryMaps.POPULAR.queries)
             val wrappedResult = ResponseHandler(response).handleResponseCodes()
             if (wrappedResult.message != null)
@@ -88,18 +109,9 @@ class MangaViewModel @Inject constructor(
         }
     }
 
-    private fun cacheMangas(id: Int, response: ResponseTopManga) = viewModelScope.launch {
-        Timber.tag(DEBUG_TAG).d("Caching mangas")
-        repository.saveMangaResponse(MangaEntity(id, response))
-    }
-
-    private fun getMangasFromDB(id: Int) = viewModelScope.launch {
-        Timber.tag(DEBUG_TAG).d("Getting from DB")
-        val response = repository.getMangasByDB(id).first().responseManga
-        _states.value = MangaStates.ShowTopMangas(response.data)
-        Timber.tag(DEBUG_TAG).d("Hello.....")
-    }
-
+    ///////////////////////////////////////////////////////////////////////////
+    // Search Manga Functions
+    ///////////////////////////////////////////////////////////////////////////
 
     private fun searchManga(
         queryMap: Map<String, String>,
@@ -110,9 +122,13 @@ class MangaViewModel @Inject constructor(
             _states.value = try {
                 val response = repository.searchManga(queryMap)
                 val wrappedResult = ResponseHandler(response).handleResponseCodes()
-                if (wrappedResult.message != null)
+                if (wrappedResult.message != null) {
+                    if (wrappedResult.message.contains("429")) {
+                        handleTooManyRequests(queryMap, intent, dbId)
+                    }
                     MangaStates.Error(wrappedResult.message.toString())
-                else{
+                } else {
+                    // Successful response from API
                     if (dbId != null)
                         cacheMangas(dbId, response.body()!!)
                     castStateBasedOnIntent(wrappedResult.data!!.data, intent)
@@ -122,15 +138,38 @@ class MangaViewModel @Inject constructor(
             }
     }
 
-    private fun getDoujins(queryMap: Map<String, String>, intent: MangaIntents) =
+    private fun retrieveManga(queryMap: Map<String, String>, intent: MangaIntents, dbId: Int) =
         viewModelScope.launch(Dispatchers.IO) {
-            doujinsCached = repository.checkMangaResponseExist(2).first()
-            if (doujinsCached) {
-                getMangasFromDB(2)
+            isResponseCached = repository.checkMangaResponseExist(dbId).first()
+            if (isResponseCached) {
+                getMangasFromDB(dbId)
             } else {
-                searchManga(queryMap, intent)
+                searchManga(queryMap, intent, dbId)
             }
         }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // General Functions
+    ///////////////////////////////////////////////////////////////////////////
+
+    private suspend fun handleTooManyRequests(
+        queryMap: Map<String, String>,
+        intent: MangaIntents,
+        dbId: Int? = null
+    ) {
+        delay(500)
+        searchManga(queryMap, intent, dbId)
+    }
+
+    private fun getMangasFromDB(id: Int) = viewModelScope.launch {
+        val response = repository.getMangasByDB(id).first().responseManga
+        _states.value = castStateBasedOnIntent(response.data, intToIntentMap[id]!!)
+    }
+
+    private fun cacheMangas(id: Int, response: ResponseTopManga) = viewModelScope.launch {
+        repository.saveMangaResponse(MangaEntity(id, response))
+    }
+
 
     private fun castStateBasedOnIntent(
         result: List<ResponseTopManga.Data>,

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.ViewStub
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -29,7 +28,6 @@ import ir.mahan.mangamotion.utils.smoothLoad
 import ir.mahan.mangamotion.viewmodel.manga.MangaIntents
 import ir.mahan.mangamotion.viewmodel.manga.MangaStates
 import ir.mahan.mangamotion.viewmodel.manga.MangaViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -37,10 +35,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MangaFragment : BaseFragment() {
+    ///////////////////////////////////////////////////////////////////////////
+    // Properties
+    ///////////////////////////////////////////////////////////////////////////
     // Binding
     private var _binding: FragmentMangaBinding? = null
     val binding get() = _binding!!
-
     // ViewModels
     private val viewModel: MangaViewModel by activityViewModels()
 
@@ -60,6 +60,9 @@ class MangaFragment : BaseFragment() {
     @Inject lateinit var sessionManager: SessionManager
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    // Behavior Functions
+    ///////////////////////////////////////////////////////////////////////////
     /**
      * Called inside OnViewCreated to handle UI  and Binding related operations
      */
@@ -104,10 +107,10 @@ class MangaFragment : BaseFragment() {
     }
 
     private fun showTopMangas(topMangas: List<ResponseTopManga.Data>) {
-        Timber.tag(DEBUG_TAG).d("Top Mangas Received")
+//        Timber.tag(DEBUG_TAG).d("Top Mangas Received")
         topItemsAdapter.setItems(topMangas)
         binding.popularMangaShimmer.hideShimmer()
-        callSubSections()
+        callFragmentIntents()
     }
 
     private fun showNewMangas(newMangas: List<ResponseTopManga.Data>) {
@@ -138,19 +141,16 @@ class MangaFragment : BaseFragment() {
 //        Timber.tag(DEBUG_TAG).d("new adapter: ${newItemsAdapter.itemCount}")
     }
 
-    private fun callSubSections() = lifecycleScope.launch {
-//        delay(300)
-//        viewModel.intents.send(MangaIntents.LoadNewMangas)
-//        delay(300)
+    private fun callFragmentIntents() = lifecycleScope.launch {
         viewModel.intents.send(MangaIntents.LoadDoujins)
-        delay(1000)
+//        delay(1000)
         viewModel.intents.send(MangaIntents.LoadManhwas)
 //        delay(800)
         viewModel.intents.send(MangaIntents.LoadManhuas)
     }
 
     private fun initTopRecyclerView() {
-        Timber.tag(DEBUG_TAG).d("Setting up popular recycler")
+//        Timber.tag(DEBUG_TAG).d("Setting up popular recycler")
         binding.popularMangaShimmer.setup(
             newAdapter = topItemsAdapter,
             newLayoutManager = GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL,false)
@@ -158,7 +158,7 @@ class MangaFragment : BaseFragment() {
     }
 
     private fun initializeNewItemsRecyclerView()  {
-        Timber.tag(DEBUG_TAG).d("setupNewItemsRecycler")
+//        Timber.tag(DEBUG_TAG).d("setupNewItemsRecycler")
         binding.newMangaLay.mangaList.setup(
             newAdapter = newItemsAdapter,
             newLayoutManager = LinearLayoutManager(

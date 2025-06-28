@@ -137,7 +137,7 @@ class AnimeFragment : BaseFragment() {
             }
         }
         lifecycleScope.launch {
-            delay(1000)
+//            delay(1000)
             viewModel.intents.send(AnimeIntents.LoadTopAnimeList)
         }
     }

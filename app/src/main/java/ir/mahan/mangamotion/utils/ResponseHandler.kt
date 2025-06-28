@@ -7,10 +7,12 @@ open class ResponseHandler<T>(private val response: Response<T>) {
     fun handleResponseCodes(): Wrapper<T> {
         return when {
             response.message().contains("timeout") -> Wrapper.Error("Timeout")
-            response.code() == 401 -> Wrapper.Error("You are not authorized")
-            response.code() == 402 -> Wrapper.Error("Your free plan finished")
-            response.code() == 422 -> Wrapper.Error("Api key not found!")
-            response.code() == 500 -> Wrapper.Error("Try again")
+            response.code() == 400 -> Wrapper.Error("400: Bad Request")
+            response.code() == 404 -> Wrapper.Error("404: Not Found")
+            response.code() == 405 -> Wrapper.Error("405: Method Not Allowed")
+            response.code() == 429 -> Wrapper.Error("429: Too Many Request")
+            response.code() == 500 -> Wrapper.Error("500: Internal Server Error")
+            response.code() == 503 -> Wrapper.Error("503: Service Unavailable")
             response.isSuccessful -> Wrapper.Success(response.body()!!)
             else -> Wrapper.Error(response.message())
         }

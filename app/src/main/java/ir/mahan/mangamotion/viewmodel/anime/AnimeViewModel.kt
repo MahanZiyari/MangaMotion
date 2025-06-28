@@ -10,6 +10,7 @@ import ir.mahan.mangamotion.utils.constants.AnimeScreenQueryMaps
 import ir.mahan.mangamotion.utils.constants.DEBUG_TAG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
@@ -59,8 +60,12 @@ class AnimeViewModel @Inject constructor(
             Timber.tag(DEBUG_TAG).d("Calling API")
             val response = repository.fetchTopAnimeList(AnimeScreenQueryMaps.TOP.queries)
             val wrappedResult = ResponseHandler(response).handleResponseCodes()
-            if (wrappedResult.message != null)
+            if (wrappedResult.message != null){
+                if (wrappedResult.message.contains("429")){
+                    handleTooManyRequest(true)
+                }
                 AnimeStates.Error(wrappedResult.message.toString())
+            }
             else {
                 cacheAnimeList(0, response.body()!!)
                 AnimeStates.ShowTopAnimeList(wrappedResult.data!!.data!!)
@@ -69,6 +74,13 @@ class AnimeViewModel @Inject constructor(
             e.printStackTrace()
             AnimeStates.Error(e.message.toString())
         }
+    }
+
+    private suspend fun handleTooManyRequest(isTop: Boolean, intents: AnimeIntents =  AnimeIntents.LoadTopAnimeList, queryMap: Map<String, String>? = null)  {
+        delay(300)
+        if (isTop)
+            fetchTopAnimeListFromApi()
+        else{}
     }
 
     private fun cacheAnimeList(id: Int, response: ResponseAnimeList) = viewModelScope.launch {

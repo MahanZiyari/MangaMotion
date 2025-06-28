@@ -64,7 +64,7 @@ open class AnimeListAdapter @Inject constructor() :
     }// ViewHolder End
 
     private fun TopAnimeItemLayoutBinding.initViews(item: ResponseAnimeList.Data, index: Int) {
-        Timber.tag(DEBUG_TAG).d("Binding Anime Item: ${item.malId}")
+//        Timber.tag(DEBUG_TAG).d("Binding Anime Item: ${item.malId}")
         animeCoverImg.load(item.images?.webp?.largeImageUrl) {
             error(android.R.drawable.stat_notify_error)
             crossfade(true)
@@ -73,7 +73,7 @@ open class AnimeListAdapter @Inject constructor() :
     }
 
     private fun MangaVerticalBinding.initViews(item: ResponseAnimeList.Data, index: Int) {
-        Timber.tag(DEBUG_TAG).d("Binding Manga Item: ${item.malId}")
+//        Timber.tag(DEBUG_TAG).d("Binding Manga Item: ${item.malId}")
         coverImg.load(item.images?.webp?.largeImageUrl) {
             error(android.R.drawable.stat_notify_error)
             crossfade(true)
@@ -87,7 +87,7 @@ open class AnimeListAdapter @Inject constructor() :
 
     // DiffUtils
     fun setItems(newData: List<ResponseAnimeList.Data>) {
-        Timber.tag(DEBUG_TAG).d("Adapter Items: ${newData.size}")
+//        Timber.tag(DEBUG_TAG).d("Adapter Items: ${newData.size}")
         val adapterDiffUtils = BaseDiffUtils(items, newData)
         val diffUtils = DiffUtil.calculateDiff(adapterDiffUtils)
         items = newData
