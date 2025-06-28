@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jackandphantom.carouselrecyclerview.view.ReflectionViewContainer
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:reflect_relativeDepth="0.3"
+    android:layout_margin="@dimen/_4mdp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        app:shapeAppearanceOverlay="@style/RoundedImageOverlay"
+        android:id="@+id/animeCoverImg"
+        android:layout_width="@dimen/_120mdp"
+        android:layout_height="@dimen/_150mdp"
+        tools:src="@drawable/manga_pic_temp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</com.jackandphantom.carouselrecyclerview.view.ReflectionViewContainer>

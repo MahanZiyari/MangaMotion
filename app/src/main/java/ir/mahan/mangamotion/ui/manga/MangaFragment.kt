@@ -222,8 +222,8 @@ class MangaFragment : BaseFragment() {
             }
         }
         lifecycleScope.launch {
-            viewModel.intents.send(MangaIntents.LoadTopMangas)
             viewModel.intents.send(MangaIntents.LoadNewMangas)
+            viewModel.intents.send(MangaIntents.LoadTopMangas)
         }
     }
 

@@ -3,7 +3,7 @@ package ir.mahan.mangamotion.utils.constants
 object APIQueryParameters {
     //--Top Mangas--//
     //      Keys
-    const val TOP_MANGA_TYPE_Key = "type"
+    const val TYPE_KEY = "type"
     const val MANGA_ORDER_BY_KEY = "order_by"
     const val MANGA_STATUS_KEY  = "status"
     const val SORT_KEY = "sort"
@@ -46,4 +46,24 @@ object APIQueryParameters {
     const val MANGA_STATUS_HIATUS  = "hiatus"
     const val MANGA_STATUS_DISCONTINUED  = "discontinued"
     const val MANGA_STATUS_UPCOMING  = "upcoming"
+    ///////////////////////////////////////////////////////////////////////////
+    // Anime
+    ///////////////////////////////////////////////////////////////////////////
+    // Anime types
+    const val TOP_ANIME_TYPE_TV = "tv"
+    const val TOP_ANIME_TYPE_MOVIE = "movie"
+    const val TOP_ANIME_TYPE_OVA = "ova"
+    const val TOP_ANIME_TYPE_SPECIAL = "special"
+    const val TOP_ANIME_TYPE_ONA = "ona"
+    const val TOP_ANIME_TYPE_MUSIC = "music"
+    const val TOP_ANIME_TYPE_CM = "cm"
+    const val TOP_ANIME_TYPE_PV = "pv"
+    const val TOP_ANIME_TYPE_TV_SPECIAL = "tv_special"
+    //Filters
+    const val TOP_ANIME_FILTER_KEY = "filter"
+    const val TOP_ANIME_FILTER_AIRING = "airing"
+    const val TOP_ANIME_FILTER_UPCOMING = "upcoming"
+    const val TOP_ANIME_FILTER_BY_POPULARITY = "bypopularity"
+    const val TOP_ANIME_FILTER_FAVORITE = "favorite"
+
 }

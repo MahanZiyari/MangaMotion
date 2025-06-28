@@ -101,8 +101,11 @@ dependencies {
     // Shimmer
     implementation ("com.facebook.shimmer:shimmer:0.5.0")
     implementation ("com.github.omtodkar:ShimmerRecyclerView:v0.4.1")
+    // carousel Recycler view
+    implementation("com.github.sparrow007:carouselrecyclerview:1.2.6")
     // Other
     implementation ("com.github.MrNouri:DynamicSizes:1.0")
     implementation ("kr.co.prnd:readmore-textview:1.0.0")
     implementation("io.writeopia:loading-button:3.0.0")
+    implementation("com.github.ybq:Android-SpinKit:1.4.0")
 }
