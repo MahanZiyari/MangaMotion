@@ -1,6 +1,6 @@
 package ir.mahan.mangamotion.data.repository
 
-import ir.mahan.mangamotion.data.model.MangaEntity
+import ir.mahan.mangamotion.data.model.anime.AnimeEntity
 import ir.mahan.mangamotion.data.source.LocalDataSource
 import ir.mahan.mangamotion.data.source.RemoteDataSource
 import javax.inject.Inject
@@ -13,12 +13,12 @@ class AnimeRepository @Inject constructor(
     // Remote
     ///////////////////////////////////////////////////////////////////////////
     suspend fun fetchTopAnimeList(query: Map<String, String>) = remoteDataSource.getTopAnime(query)
-//    suspend fun searchManga(query: Map<String, String>) = remoteDataSource.searchManga(query)
+    suspend fun searchAnime(query: Map<String, String>) = remoteDataSource.searchAnime(query)
 
     ///////////////////////////////////////////////////////////////////////////
     // Local
     ///////////////////////////////////////////////////////////////////////////
-    suspend fun getMangasByDB(id: Int) = localDataSource.getMangaResponse(id)
-//    suspend fun checkMangaResponseExist(id: Int) = localDataSource.checkMangaResponseExist(id)
-//    suspend fun saveMangaResponse(mangaEntity: MangaEntity) =  localDataSource.saveMangaResponse(mangaEntity)
+    suspend fun getAnimeResponseByDB(id: Int) = localDataSource.getAnimeResponse(id)
+    suspend fun checkAnimeResponseExist(id: Int) = localDataSource.checkAnimeResponseExist(id)
+    suspend fun saveAnimeResponse(animeEntity: AnimeEntity) =  localDataSource.saveAnimeResponse(animeEntity)
 }

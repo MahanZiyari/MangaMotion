@@ -13,6 +13,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mahan.mangamotion.data.SessionManager
+import ir.mahan.mangamotion.data.adapter.TopItemAdapter
 import ir.mahan.mangamotion.data.model.anime.ResponseAnimeList
 import ir.mahan.mangamotion.databinding.FragmentAnimeBinding
 import ir.mahan.mangamotion.ui.anime.adapter.AnimeListAdapter
@@ -45,6 +46,8 @@ class AnimeFragment : BaseFragment() {
     //Adapters
     @Inject
     lateinit var topAnimeAdapter: AnimeListAdapter
+    @Inject
+    lateinit var newItemsAdapter: AnimeListAdapter
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -58,7 +61,7 @@ class AnimeFragment : BaseFragment() {
         animeAppbarLay.avatarImg.smoothLoad(BASE_AVATAR_URL.plus(uid.hashCode()))
         // UI
         handleNetworkStatus()
-//        initializeNewItemsRecyclerView()
+        initializeNewItemsRecyclerView()
     }
 
 
@@ -74,12 +77,18 @@ class AnimeFragment : BaseFragment() {
         }
         binding.topAnimeSec.topAnimeLoading.isVisible = false
         binding.topAnimeSec.topAnimeCarousel.isVisible = true
-//        callSubSections()
+        callSubSections()
+    }
+
+    private fun displayNewAnimeList(animeList: List<ResponseAnimeList.Data>) {
+        Timber.tag(DEBUG_TAG).d("New Anime Received: ${animeList.size} items")
+        newItemsAdapter.setItems(animeList)
+        binding.newAnimeSec.newAnimeList.hideShimmer()
     }
 
     private fun initializeNewItemsRecyclerView()  {
-        /*Timber.tag(DEBUG_TAG).d("setupNewItemsRecycler")
-        binding.newMangaLay.mangaList.setup(
+//        Timber.tag(DEBUG_TAG).d("setupNewItemsRecycler")
+        binding.newAnimeSec.newAnimeList.setup(
             newAdapter = newItemsAdapter,
             newLayoutManager = LinearLayoutManager(
                 requireContext(),
@@ -87,7 +96,8 @@ class AnimeFragment : BaseFragment() {
                 false
             )
         )
-        newItemsAdapter.changeBindMode(false)*/
+        binding.newAnimeSec.newAnimeList.showShimmer()
+        newItemsAdapter.changeBindMode(false)
     }
 
     private fun handleNetworkStatus() = binding.apply {
@@ -102,6 +112,7 @@ class AnimeFragment : BaseFragment() {
 
     private suspend fun manageStates() {
         viewModel.states.collect { state ->
+//            Timber.tag(DEBUG_TAG).d("Fragment -> State: $state")
             when(state){
                 // Top Anime
                 is AnimeStates.LoadingForTopAnimeList -> {
@@ -112,7 +123,20 @@ class AnimeFragment : BaseFragment() {
                 is AnimeStates.Error -> {
                     Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
                 }
+
+                is AnimeStates.LoadingForNewAnimeList -> {
+                    Timber.tag(DEBUG_TAG).d("Loading New Anime List")
+                    binding.newAnimeSec.newAnimeList.showShimmer()
+                }
+                is AnimeStates.ShowNewAnimeList -> displayNewAnimeList(state.animeList)
             }
+        }
+    }
+
+    private fun callSubSections() {
+        lifecycleScope.launch {
+//            delay(2000)
+            viewModel.intents.send(AnimeIntents.LoadNewAnimeList)
         }
     }
 

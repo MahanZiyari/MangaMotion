@@ -8,7 +8,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ir.mahan.mangamotion.data.database.MainDatabase
+import ir.mahan.mangamotion.utils.constants.ANIME_NAME
 import ir.mahan.mangamotion.utils.constants.MAIN_DB_NAME
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -28,6 +30,11 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDao(database: MainDatabase) = database.dao()
+    fun provideMangaDao(database: MainDatabase) = database.mangaDao()
+
+    @Named(ANIME_NAME)
+    @Provides
+    @Singleton
+    fun provideAnimeDao(database: MainDatabase) = database.animeDao()
 
 }

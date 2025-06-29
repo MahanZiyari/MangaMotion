@@ -4,9 +4,11 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import ir.mahan.mangamotion.data.model.MangaEntity
+import ir.mahan.mangamotion.data.model.anime.AnimeEntity
 
-@Database(entities = [MangaEntity::class],  version = 1,  exportSchema = false)
+@Database(entities = [MangaEntity::class, AnimeEntity::class],  version = 2,  exportSchema = false)
 @TypeConverters(CustomTypeConverter::class)
 abstract class MainDatabase : RoomDatabase(){
-    abstract fun dao(): MainDao
+    abstract fun mangaDao(): MangaDao
+    abstract fun animeDao(): AnimeDao
 }

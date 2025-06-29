@@ -9,11 +9,18 @@ enum class AnimeScreenQueryMaps(val queries: Map<String, String>) {
         put(APIQueryParameters.LIMIT, LIMIT_NUMBER.toString())
     }),
 
-    CURRENTLY_PUBLISHING(queries = buildMap {
-        put(APIQueryParameters.MANGA_ORDER_BY_KEY, APIQueryParameters.MANGA_ORDER_BY_START_DATE)
-        put(APIQueryParameters.TYPE_KEY, APIQueryParameters.TOP_MANGA_TYPE_MANGA)
-        put(APIQueryParameters.MANGA_STATUS_KEY, APIQueryParameters.MANGA_STATUS_PUBLISHING)
+    LATEST(queries = buildMap {
+        put(APIQueryParameters.TYPE_KEY, APIQueryParameters.TOP_ANIME_TYPE_PV)
+        put(APIQueryParameters.ORDER_BY_KEY, APIQueryParameters.ORDER_BY_START_DATE)
         put(APIQueryParameters.SORT_KEY, APIQueryParameters.SORT_DESC)
+        put(APIQueryParameters.LIMIT, LIMIT_NUMBER.toString())
+    }),
+
+    FOR_KIDS(queries = buildMap {
+//        put(APIQueryParameters.TYPE_KEY, APIQueryParameters.TOP_ANIME_TYPE_MOVIE)
+        put(APIQueryParameters.ANIME_RATING_KEY, APIQueryParameters.ANIME_RATING_PG)
+        put(APIQueryParameters.ORDER_BY_KEY, APIQueryParameters.ORDER_BY_SCORE)
+//        put(APIQueryParameters.SORT_KEY, APIQueryParameters.SORT_DESC)
         put(APIQueryParameters.LIMIT, LIMIT_NUMBER.toString())
     })
 }

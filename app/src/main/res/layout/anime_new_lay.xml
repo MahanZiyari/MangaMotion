@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/_10mdp"
         android:layout_marginStart="@dimen/_4mdp"
-        android:text="Recently Published"
+        android:text="recent Animes"
         android:textSize="@dimen/_12font_mdp"
         app:layout_constraintBottom_toBottomOf="@id/subsection_more"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,13 +33,13 @@
         android:textSize="@dimen/_10font_mdp"
         app:drawableEndCompat="@drawable/baseline_keyboard_arrow_right_24"
         app:drawableTint="?attr/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@id/mangaList"
+        app:layout_constraintBottom_toTopOf="@id/newAnimeList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingPrefix" />
 
     <com.todkars.shimmer.ShimmerRecyclerView
-        android:id="@+id/mangaList"
+        android:id="@+id/newAnimeList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5mdp"

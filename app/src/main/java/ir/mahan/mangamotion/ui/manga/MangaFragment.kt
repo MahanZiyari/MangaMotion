@@ -28,6 +28,7 @@ import ir.mahan.mangamotion.utils.smoothLoad
 import ir.mahan.mangamotion.viewmodel.manga.MangaIntents
 import ir.mahan.mangamotion.viewmodel.manga.MangaStates
 import ir.mahan.mangamotion.viewmodel.manga.MangaViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -115,8 +116,9 @@ class MangaFragment : BaseFragment() {
 
     private fun showNewMangas(newMangas: List<ResponseTopManga.Data>) {
 //        Timber.tag(DEBUG_TAG).d("New Mangas Received")
+        binding.newMangaLay.mangaList.hideShimmer()
         newItemsAdapter.setItems(newMangas)
-        initializeNewItemsRecyclerView()
+//        initializeNewItemsRecyclerView()
     }
 
     private fun showDoujins(doujins: List<ResponseTopManga.Data>) {
@@ -167,6 +169,7 @@ class MangaFragment : BaseFragment() {
                 false
             )
         )
+        binding.newMangaLay.mangaList.showShimmer()
         newItemsAdapter.changeBindMode(false)
     }
 
@@ -222,8 +225,9 @@ class MangaFragment : BaseFragment() {
             }
         }
         lifecycleScope.launch {
-            viewModel.intents.send(MangaIntents.LoadNewMangas)
             viewModel.intents.send(MangaIntents.LoadTopMangas)
+//            delay(2000)
+            viewModel.intents.send(MangaIntents.LoadNewMangas)
         }
     }
 

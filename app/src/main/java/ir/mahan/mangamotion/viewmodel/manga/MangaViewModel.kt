@@ -8,6 +8,7 @@ import ir.mahan.mangamotion.data.model.ResponseTopManga
 import ir.mahan.mangamotion.data.repository.MangaRepository
 import ir.mahan.mangamotion.utils.NetworkObserver
 import ir.mahan.mangamotion.utils.ResponseHandler
+import ir.mahan.mangamotion.utils.constants.DEBUG_TAG
 import ir.mahan.mangamotion.utils.constants.MangaScreenQueryMaps
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -121,11 +123,15 @@ class MangaViewModel @Inject constructor(
             _states.value = MangaStates.NewMangasLoading
             _states.value = try {
                 val response = repository.searchManga(queryMap)
+                if (response.code() == 429){
+                    handleTooManyRequests(queryMap, intent, dbId)
+                    return@launch
+                }
                 val wrappedResult = ResponseHandler(response).handleResponseCodes()
                 if (wrappedResult.message != null) {
-                    if (wrappedResult.message.contains("429")) {
+                    /*if (wrappedResult.message.contains("429")) {
                         handleTooManyRequests(queryMap, intent, dbId)
-                    }
+                    }*/
                     MangaStates.Error(wrappedResult.message.toString())
                 } else {
                     // Successful response from API
@@ -157,6 +163,7 @@ class MangaViewModel @Inject constructor(
         intent: MangaIntents,
         dbId: Int? = null
     ) {
+        Timber.tag(DEBUG_TAG).d("Handling Too Many Requests: intent: $intent")
         delay(500)
         searchManga(queryMap, intent, dbId)
     }

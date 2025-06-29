@@ -80,7 +80,7 @@ open class AnimeListAdapter @Inject constructor() :
             crossfade(500)
         }
         indexTxt.text = index.plus(1).toString()
-        titleTxt.text = item.title
+        titleTxt.text = item.title ?: "null"
         //genreTxt.text = item.genres?.map { it!!.name }?.joinToString(", ")
         genreTxt.text = item.score?.toString() ?: ""
     }

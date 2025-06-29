@@ -11,7 +11,7 @@ import ir.mahan.mangamotion.utils.constants.MANGA_TABLE_NAME
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MainDao {
+interface MangaDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMangaResponse(entity: MangaEntity)

@@ -16,3 +16,6 @@ const val USER_EMAIL_KEY = "USER_STORE_NAME"
 // Room
 const val MAIN_DB_NAME = "main_db_name"
 const val MANGA_TABLE_NAME = "manga_table_name"
+const val ANIME_TABLE_NAME = "anime_table_name"
+// DI
+const val ANIME_NAME = "anime_name"
