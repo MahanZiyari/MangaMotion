@@ -8,6 +8,9 @@ import ir.mahan.mangamotion.data.model.anime.ResponseAnimeList
 import ir.mahan.mangamotion.data.repository.AnimeRepository
 import ir.mahan.mangamotion.utils.ResponseHandler
 import ir.mahan.mangamotion.utils.constants.AnimeScreenQueryMaps
+import ir.mahan.mangamotion.utils.constants.AnimeScreenQueryMaps.FOR_KIDS
+import ir.mahan.mangamotion.utils.constants.AnimeScreenQueryMaps.LATEST
+import ir.mahan.mangamotion.utils.constants.AnimeScreenQueryMaps.OVA
 import ir.mahan.mangamotion.utils.constants.DEBUG_TAG
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -37,7 +40,7 @@ class AnimeViewModel @Inject constructor(
             when (it) {
                 0 -> AnimeIntents.LoadTopAnimeList
                 1 -> AnimeIntents.LoadNewAnimeList
-                2 -> AnimeIntents.LoadMovieAnimeList
+                2 -> AnimeIntents.LoadOvaAnimeList
                 3 -> AnimeIntents.LoadKidsAnimeList
                 else -> AnimeIntents.LoadTopAnimeList
             }
@@ -56,13 +59,11 @@ class AnimeViewModel @Inject constructor(
                 // id = 0
                 AnimeIntents.LoadTopAnimeList -> getTopAnimeList()
                 // id = 1
-                AnimeIntents.LoadNewAnimeList -> searchAnime(
-                    AnimeScreenQueryMaps.LATEST.queries,
-                    intent
-                )
-
-                AnimeIntents.LoadKidsAnimeList -> TODO()
-                AnimeIntents.LoadMovieAnimeList -> TODO()
+                AnimeIntents.LoadNewAnimeList -> searchAnime(LATEST.queries, intent)
+                // id = 2
+                AnimeIntents.LoadOvaAnimeList -> retrieveAnime(OVA.queries, intent, 2)
+                // id = 3
+                AnimeIntents.LoadKidsAnimeList -> retrieveAnime(FOR_KIDS.queries, intent, 3)
             }
         }
     }
@@ -110,12 +111,12 @@ class AnimeViewModel @Inject constructor(
     ) = viewModelScope.launch(Dispatchers.IO) {
         Timber.tag(DEBUG_TAG).d("Calling Search Anime API")
 //        _states.value = AnimeStates.LoadingForNewAnimeList
-        delay(1000)
+//        delay(1000)
         _states.value = try {
             val response = repository.searchAnime(queryMap)
             if (response.code() == 429) {
                 handleTooManyRequest(false, intent, queryMap, dbId)
-                return@launch
+//                return@launch
             }
             val wrappedResult = ResponseHandler(response).handleResponseCodes()
             if (wrappedResult.message != null) {
@@ -148,7 +149,7 @@ class AnimeViewModel @Inject constructor(
 
     private fun retrieveAnime(queryMap: Map<String, String>, intent: AnimeIntents, dbId: Int) =
         viewModelScope.launch(Dispatchers.IO) {
-            isResponseCached = repository.checkAnimeResponseExist(dbId).first()
+            //isResponseCached = repository.checkAnimeResponseExist(dbId).first()
             if (isResponseCached) {
                 Timber.tag(DEBUG_TAG).d("Anime List with ID:$dbId is cached")
                 getAnimeListFromDB(dbId)
@@ -175,8 +176,8 @@ class AnimeViewModel @Inject constructor(
     ): AnimeStates = when (intent) {
         AnimeIntents.LoadTopAnimeList -> AnimeStates.ShowTopAnimeList(result)
         AnimeIntents.LoadNewAnimeList -> AnimeStates.ShowNewAnimeList(result)
-        AnimeIntents.LoadMovieAnimeList -> TODO()
-        AnimeIntents.LoadKidsAnimeList -> TODO()
+        AnimeIntents.LoadOvaAnimeList -> AnimeStates.ShowOvaAnimeList(result)
+        AnimeIntents.LoadKidsAnimeList -> AnimeStates.ShowKidsAnimeList(result)
     }
 
 

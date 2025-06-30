@@ -54,11 +54,22 @@
                 layout="@layout/top_anime_lay" />
 
             <include
-                android:layout_marginVertical="@dimen/mines30mdp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/newAnimeSec"
                 layout="@layout/anime_new_lay" />
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ovaAnimeSec"
+                layout="@layout/anime_ova_lay" />
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/kidsAnimeSec"
+                layout="@layout/anime_kids_lay" />
 
 
         </LinearLayout>

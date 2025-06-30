@@ -11,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.todkars.shimmer.ShimmerRecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mahan.mangamotion.data.SessionManager
 import ir.mahan.mangamotion.data.adapter.TopItemAdapter
@@ -48,6 +49,11 @@ class AnimeFragment : BaseFragment() {
     lateinit var topAnimeAdapter: AnimeListAdapter
     @Inject
     lateinit var newItemsAdapter: AnimeListAdapter
+    @Inject
+    lateinit var ovaAdapter: AnimeListAdapter
+    @Inject
+    lateinit var kidsAdapter: AnimeListAdapter
+
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -61,7 +67,9 @@ class AnimeFragment : BaseFragment() {
         animeAppbarLay.avatarImg.smoothLoad(BASE_AVATAR_URL.plus(uid.hashCode()))
         // UI
         handleNetworkStatus()
-        initializeNewItemsRecyclerView()
+        initLayoutRecycler(binding.newAnimeSec.newAnimeList, newItemsAdapter)
+        initLayoutRecycler(binding.ovaAnimeSec.ovaAnimeList, ovaAdapter)
+        initLayoutRecycler(binding.kidsAnimeSec.kidsAnimeList, kidsAdapter)
     }
 
 
@@ -86,19 +94,31 @@ class AnimeFragment : BaseFragment() {
         binding.newAnimeSec.newAnimeList.hideShimmer()
     }
 
-    private fun initializeNewItemsRecyclerView()  {
-//        Timber.tag(DEBUG_TAG).d("setupNewItemsRecycler")
-        binding.newAnimeSec.newAnimeList.setup(
-            newAdapter = newItemsAdapter,
+    private fun displayOvaAnimeList(animeList: List<ResponseAnimeList.Data>) {
+        Timber.tag(DEBUG_TAG).d("OVAs Received: ${animeList.size} items")
+        ovaAdapter.setItems(animeList)
+        binding.ovaAnimeSec.ovaAnimeList.hideShimmer()
+    }
+
+    private fun displayKidsAnimeList(animeList: List<ResponseAnimeList.Data>) {
+        Timber.tag(DEBUG_TAG).d("OVAs Received: ${animeList.size} items")
+        kidsAdapter.setItems(animeList)
+        binding.kidsAnimeSec.kidsAnimeList.hideShimmer()
+    }
+
+    private fun initLayoutRecycler(recycler: ShimmerRecyclerView, adapter: AnimeListAdapter) {
+        recycler.setup(
+            newAdapter = adapter,
             newLayoutManager = LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
         )
-        binding.newAnimeSec.newAnimeList.showShimmer()
-        newItemsAdapter.changeBindMode(false)
+        recycler.showShimmer()
+        adapter.changeBindMode(false)
     }
+
 
     private fun handleNetworkStatus() = binding.apply {
         if (!isNetworkAvailable) {
@@ -120,15 +140,20 @@ class AnimeFragment : BaseFragment() {
                     binding.topAnimeSec.topAnimeCarousel.isVisible = false
                 }
                 is AnimeStates.ShowTopAnimeList -> displayTopAnimeList(state.animeList)
-                is AnimeStates.Error -> {
-                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
-                }
-
+                // Latest Anime
                 is AnimeStates.LoadingForNewAnimeList -> {
                     Timber.tag(DEBUG_TAG).d("Loading New Anime List")
                     binding.newAnimeSec.newAnimeList.showShimmer()
                 }
                 is AnimeStates.ShowNewAnimeList -> displayNewAnimeList(state.animeList)
+                // latest OVA
+                is AnimeStates.ShowOvaAnimeList -> displayOvaAnimeList(state.animeList)
+                // Kids Anime
+                is AnimeStates.ShowKidsAnimeList -> displayKidsAnimeList(state.animeList)
+                // Error
+                is AnimeStates.Error -> {
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -137,6 +162,8 @@ class AnimeFragment : BaseFragment() {
         lifecycleScope.launch {
 //            delay(2000)
             viewModel.intents.send(AnimeIntents.LoadNewAnimeList)
+            viewModel.intents.send(AnimeIntents.LoadOvaAnimeList)
+            viewModel.intents.send(AnimeIntents.LoadKidsAnimeList)
         }
     }
 

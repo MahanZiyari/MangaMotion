@@ -8,7 +8,7 @@
     <View
         android:id="@+id/image"
         android:layout_width="@dimen/_100mdp"
-        android:layout_height="@dimen/_120mdp"
+        android:layout_height="@dimen/_150mdp"
         android:background="#757575"/>
 
 
