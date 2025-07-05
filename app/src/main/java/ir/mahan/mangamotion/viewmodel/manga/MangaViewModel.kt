@@ -146,7 +146,7 @@ class MangaViewModel @Inject constructor(
 
     private fun retrieveManga(queryMap: Map<String, String>, intent: MangaIntents, dbId: Int) =
         viewModelScope.launch(Dispatchers.IO) {
-            isResponseCached = repository.checkMangaResponseExist(dbId).first()
+            //isResponseCached = repository.checkMangaResponseExist(dbId).first()
             if (isResponseCached) {
                 getMangasFromDB(dbId)
             } else {
